@@ -55,8 +55,9 @@ class PassManagerBuilder(finalizer.OwnerMixin):
         self.ptr = ptr
         self._finalizer_track(self.ptr)
 
-    def _finalize(self):
-        _core.LLVMPassManagerBuilderDispose(self.ptr)
+    @classmethod
+    def _finalize(cls, ptr):
+        _core.LLVMPassManagerBuilderDispose(ptr)
 
     def populate(self, pm):
         if isinstance(pm, FunctionPassManager):
@@ -139,8 +140,9 @@ class PassManager(finalizer.OwnerMixin):
         self.ptr = ptr
         self._finalizer_track(self.ptr)
 
-    def _finalize(self):
-        _core.LLVMDisposePassManager(self.ptr)
+    @classmethod
+    def _finalize(cls, ptr):
+        _core.LLVMDisposePassManager(ptr)
 
     def add(self, tgt_data_or_pass_name):
         if isinstance(tgt_data_or_pass_name, ee.TargetData):

@@ -1811,8 +1811,9 @@ class Builder(finalizer.OwnerMixin):
         self.ptr = ptr
         self._finalizer_track(self.ptr)
 
-    def _finalize(self):
-        _core.LLVMDisposeBuilder(self.ptr)
+    @classmethod
+    def _finalize(cls, ptr):
+        _core.LLVMDisposeBuilder(ptr)
 
     def position_at_beginning(self, bblk):
         """Position the builder at the beginning of the given block.
@@ -2325,8 +2326,9 @@ class MemoryBuffer(finalizer.OwnerMixin):
         self.ptr = ptr
         self._finalizer_track(self.ptr)
 
-    def _finalize(self):
-        _core.LLVMDisposeMemoryBuffer(self.ptr)
+    @classmethod
+    def _finalize(cls, ptr):
+        _core.LLVMDisposeMemoryBuffer(ptr)
 
 
 #===----------------------------------------------------------------------===

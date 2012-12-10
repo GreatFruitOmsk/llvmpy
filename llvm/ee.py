@@ -169,8 +169,9 @@ class GenericValue(finalizer.OwnerMixin):
         self.ptr = ptr
         self._finalizer_track(self.ptr)
 
-    def _finalize(self):
-        _core.LLVMDisposeGenericValue(self.ptr)
+    @classmethod
+    def _finalize(cls, ptr):
+        _core.LLVMDisposeGenericValue(ptr)
 
     def as_int(self):
         return _core.LLVMGenericValueToInt(self.ptr, 0)
@@ -209,8 +210,9 @@ class EngineBuilder(finalizer.OwnerMixin):
         self._module = module
         self._finalizer_track(self.ptr)
 
-    def _finalize(self):
-        _core.LLVMDisposeEngineBuilder(self.ptr)
+    @classmethod
+    def _finalize(cls, ptr):
+        _core.LLVMDisposeEngineBuilder(ptr)
 
     def force_jit(self):
         _core.LLVMEngineBuilderForceJIT(self.ptr)
@@ -268,8 +270,9 @@ class ExecutionEngine(finalizer.OwnerMixin):
         module._own(self)
         self._finalizer_track(self.ptr)
 
-    def _finalize(self):
-        _core.LLVMDisposeExecutionEngine(self.ptr)
+    @classmethod
+    def _finalize(cls, ptr):
+        _core.LLVMDisposeExecutionEngine(ptr)
 
     def run_function(self, fn, args):
         core.check_is_function(fn)
@@ -349,8 +352,9 @@ class TargetMachine(finalizer.OwnerMixin):
         self.ptr = ptr
         self._finalizer_track(self.ptr)
 
-    def _finalize(self):
-        _core.LLVMDisposeTargetMachine(self.ptr)
+    @classmethod
+    def _finalize(cls, ptr):
+        _core.LLVMDisposeTargetMachine(ptr)
 
     def emit_assembly(self, module):
         '''returns byte string of the module as assembly code of the target machine
